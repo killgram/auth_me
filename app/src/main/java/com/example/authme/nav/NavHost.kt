@@ -22,9 +22,10 @@ fun NavigationHost(
         composable(route = AuthScreen.route) {
             AuthScreen(
                 onAuthHandler = {
-                    navController.navigateSingleTopTo(ProjectsList.route)
+                    navController.navigateAndReset(ProjectsList.route)
                 }
             )
+
         }
         composable(route = ProjectsList.route) {
             ProjectsListScreen()
@@ -38,3 +39,10 @@ fun NavigationHost(
 
 fun NavHostController.navigateSingleTopTo(route: String) =
     this.navigate(route) { launchSingleTop = true }
+
+fun NavHostController.navigateAndReset(route: String) {
+    navigate(route = route) {
+        popUpTo(graph.startDestinationId) { inclusive = true }
+    }
+    graph.setStartDestination(route)
+}

@@ -67,6 +67,10 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
     // navigation
     implementation "androidx.navigation:navigation-compose:$navigation_version"
+    // view-model
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$view_model_compose_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$view_model_ktx_version"
+    implementation "androidx.biometric:biometric:$biometric_version"
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {

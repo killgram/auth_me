@@ -1,16 +1,38 @@
 package com.example.authme.screens.auth
 
+import android.content.Context
+import android.content.ContextWrapper
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun AuthScreen(onAuthHandler: () -> Unit = {}) {
+fun AuthScreen(
+    onAuthHandler: () -> Unit = {},
+    viewModel: AuthViewModel = viewModel()
+) {
+    val context = LocalContext.current
+    val activity = context.findActivity()
+
+    LaunchedEffect(Unit) {
+        activity?.let {
+            viewModel.callBiometry(
+                activity = it,
+                context = context,
+                onSuccess = onAuthHandler
+            )
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -22,7 +44,15 @@ fun AuthScreen(onAuthHandler: () -> Unit = {}) {
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
         Button(
-            onClick = onAuthHandler,
+            onClick = {
+                activity?.let {
+                    viewModel.callBiometry(
+                        activity = it,
+                        context = context,
+                        onSuccess = onAuthHandler
+                    )
+                }
+            },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 32.dp)
@@ -30,4 +60,10 @@ fun AuthScreen(onAuthHandler: () -> Unit = {}) {
             Text("Login", style = MaterialTheme.typography.h5)
         }
     }
+}
+
+fun Context.findActivity(): FragmentActivity? = when (this) {
+    is FragmentActivity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
 }

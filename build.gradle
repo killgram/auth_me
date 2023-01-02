@@ -6,6 +6,9 @@ buildscript {
         ktx_runtime = "2.5.1"
         activity_compose = "1.6.1"
         materialVersion = "1.7.0"
+        view_model_compose_version = "2.5.1"
+        view_model_ktx_version = "2.5.1"
+        biometric_version = "1.2.0-alpha05"
     }
 
     repositories {
