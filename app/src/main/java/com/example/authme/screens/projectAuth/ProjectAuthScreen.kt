@@ -1,4 +1,4 @@
-package com.example.authme.screens.projectAuth.view
+package com.example.authme.screens.projectAuth
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable

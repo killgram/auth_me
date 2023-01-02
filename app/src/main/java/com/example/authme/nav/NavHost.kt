@@ -5,9 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.authme.screens.auth.view.AuthScreen
-import com.example.authme.screens.projectAuth.view.ProjectAuthScreen
-import com.example.authme.screens.projectsList.view.ProjectsListScreen
+import com.example.authme.screens.auth.AuthScreen
+import com.example.authme.screens.projectAuth.ProjectAuthScreen
+import com.example.authme.screens.projectsList.ProjectsListScreen
 
 @Composable
 fun NavigationHost(

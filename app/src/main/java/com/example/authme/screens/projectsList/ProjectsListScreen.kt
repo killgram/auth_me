@@ -1,4 +1,4 @@
-package com.example.authme.screens.projectsList.view
+package com.example.authme.screens.projectsList
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
