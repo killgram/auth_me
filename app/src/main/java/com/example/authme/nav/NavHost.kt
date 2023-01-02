@@ -16,7 +16,7 @@ fun NavigationHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = AuthScreen.route,
+        startDestination = ProjectsList.route,
         modifier = modifier
     ) {
         composable(route = AuthScreen.route) {
@@ -25,13 +25,21 @@ fun NavigationHost(
                     navController.navigateAndReset(ProjectsList.route)
                 }
             )
-
         }
         composable(route = ProjectsList.route) {
-            ProjectsListScreen()
+            ProjectsListScreen(
+                onProjectHandler = { projectType ->
+                    navController.navigateToProjectAuth(projectType)
+                }
+            )
         }
-        composable(route = ProjectAuth.route) {
-            ProjectAuthScreen()
+        composable(
+            route = ProjectAuth.routeWithArgs,
+            arguments = ProjectAuth.arguments
+        ) { navBackStackEntry ->
+            val projectTypeArg =
+                navBackStackEntry.arguments?.getString(ProjectAuth.projectTypeArg.toString())
+            ProjectAuthScreen(projectTypeArg.toString())
         }
     }
 
@@ -45,4 +53,8 @@ fun NavHostController.navigateAndReset(route: String) {
         popUpTo(graph.startDestinationId) { inclusive = true }
     }
     graph.setStartDestination(route)
+}
+
+private fun NavHostController.navigateToProjectAuth(projectType: Int) {
+    this.navigateSingleTopTo("${ProjectAuth.route}/$projectType")
 }
