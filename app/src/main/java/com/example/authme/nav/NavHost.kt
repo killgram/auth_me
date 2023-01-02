@@ -20,7 +20,11 @@ fun NavigationHost(
         modifier = modifier
     ) {
         composable(route = AuthScreen.route) {
-            AuthScreen()
+            AuthScreen(
+                onAuthHandler = {
+                    navController.navigateSingleTopTo(ProjectsList.route)
+                }
+            )
         }
         composable(route = ProjectsList.route) {
             ProjectsListScreen()
@@ -31,3 +35,6 @@ fun NavigationHost(
     }
 
 }
+
+fun NavHostController.navigateSingleTopTo(route: String) =
+    this.navigate(route) { launchSingleTop = true }
