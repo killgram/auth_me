@@ -29,6 +29,11 @@ fun ProjectAuthScreen(
     val isLoading by viewModel.isLoading.collectAsState()
     val login by viewModel.login.collectAsState()
     val focusManager = LocalFocusManager.current
+
+    var value by remember { mutableStateOf(TextFieldValue("")) }
+    fun onChangeValue(newValue: TextFieldValue) {
+        value = newValue
+    }
     Column(modifier = Modifier
         .fillMaxSize()
         .pointerInput(Unit) {
@@ -58,11 +63,12 @@ fun ProjectAuthScreen(
             Column(
                 modifier = Modifier
                     .padding(16.dp)
-                    .fillMaxWidth()
+                    .fillMaxSize()
             ) {
                 if (login.isNotEmpty()) {
                     LoginRow(login)
-                    PasswordRow()
+                    PasswordRow(value, onChangeValue = { value -> onChangeValue(value) })
+                    SetPasswordBox(value.text)
                 } else {
                     EmptyLoginBox(onRefresh = { viewModel.getLogin() })
                 }
@@ -83,11 +89,11 @@ fun LoginRow(login: String) {
 }
 
 @Composable
-fun PasswordRow() {
-    var value by remember { mutableStateOf(TextFieldValue("")) }
-    fun onChangeValue(newValue: TextFieldValue) {
-        value = newValue
-    }
+fun PasswordRow(
+    value: TextFieldValue,
+    onChangeValue: (TextFieldValue) -> Unit = {}
+) {
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -124,6 +130,25 @@ fun EmptyLoginBox(
                 .padding(top = 12.dp)
         ) {
             Text("Refresh")
+        }
+    }
+}
+
+@Composable
+fun SetPasswordBox(pass: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = 12.dp)
+    ) {
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.Bottom),
+            enabled = pass.length > 2,
+        ) {
+            Text("Set new password")
         }
     }
 }
