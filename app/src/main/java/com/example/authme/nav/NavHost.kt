@@ -39,7 +39,12 @@ fun NavigationHost(
         ) { navBackStackEntry ->
             val projectTypeArg =
                 navBackStackEntry.arguments?.getString(ProjectAuth.projectTypeArg.toString())
-            ProjectAuthScreen(projectTypeArg.toString())
+            ProjectAuthScreen(
+                projectTypeArg.toString(),
+                onBack = {
+                    navController.navigateAndReset(ProjectsList.route)
+                }
+            )
         }
     }
 
