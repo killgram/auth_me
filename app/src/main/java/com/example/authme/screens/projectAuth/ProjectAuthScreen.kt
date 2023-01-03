@@ -20,34 +20,30 @@ fun ProjectAuthScreen(
     onBack: () -> Unit = {},
     viewModel: ProjectViewModel = viewModel()
 ) {
-    val name by viewModel.projectName.collectAsState()
-
     LaunchedEffect(Unit) {
         viewModel.extractProjectData(projectTypeArg)
     }
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(name, style = MaterialTheme.typography.h5) },
-                navigationIcon = {
-                    IconButton(
-                        onClick = onBack,
-                        modifier = Modifier
-                            .clearAndSetSemantics {}
-                    ) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = null)
-                    }
+    val name by viewModel.projectName.collectAsState()
+    Column {
+        TopAppBar(
+            title = { Text(name, style = MaterialTheme.typography.h5) },
+            navigationIcon = {
+                IconButton(
+                    onClick = onBack,
+                    modifier = Modifier
+                        .clearAndSetSemantics {}
+                ) {
+                    Icon(Icons.Filled.ArrowBack, contentDescription = null)
                 }
-            )
-        }
-    ) { innerPadding ->
-        Column(modifier = Modifier
-            .padding(innerPadding)
-            .padding(16.dp)) {
-            Text("ProjectAuthScreen")
-            Text(projectTypeArg)
-        }
+            }
+        )
+        ProjectAuthBox(modifier = Modifier.padding(16.dp))
     }
+}
 
+@Composable
+fun ProjectAuthBox(modifier: Modifier) {
+    Column(modifier = modifier) {
+        Text("ProjectAuthBox")
+    }
 }

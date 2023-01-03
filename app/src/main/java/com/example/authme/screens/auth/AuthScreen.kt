@@ -13,24 +13,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.authme.utils.BiometricUtil
 
 @Composable
 fun AuthScreen(
     onAuthHandler: () -> Unit = {},
-    viewModel: AuthViewModel = viewModel()
 ) {
     val context = LocalContext.current
-    val activity = context.findActivity()
+    val activity = context.findActivity()!!
 
     LaunchedEffect(Unit) {
-        activity?.let {
-            viewModel.callBiometry(
-                activity = it,
-                context = context,
-                onSuccess = onAuthHandler
-            )
-        }
+        callBiometry(
+            activity = activity,
+            context = context,
+            onSuccess = onAuthHandler
+        )
     }
 
     Column(
@@ -45,13 +42,11 @@ fun AuthScreen(
         )
         Button(
             onClick = {
-                activity?.let {
-                    viewModel.callBiometry(
-                        activity = it,
-                        context = context,
-                        onSuccess = onAuthHandler
-                    )
-                }
+                callBiometry(
+                    activity = activity,
+                    context = context,
+                    onSuccess = onAuthHandler
+                )
             },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
@@ -66,4 +61,12 @@ fun Context.findActivity(): FragmentActivity? = when (this) {
     is FragmentActivity -> this
     is ContextWrapper -> baseContext.findActivity()
     else -> null
+}
+
+private fun callBiometry(
+    activity: FragmentActivity,
+    context: Context,
+    onSuccess: () -> Unit,
+) {
+    BiometricUtil.authenticate(activity, context, onSuccess)
 }
