@@ -71,6 +71,14 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$view_model_compose_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$view_model_ktx_version"
     implementation "androidx.biometric:biometric:$biometric_version"
+    // retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    // GSON
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+//    // coroutine
+//    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+//    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
