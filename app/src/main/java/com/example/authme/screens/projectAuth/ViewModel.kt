@@ -13,7 +13,6 @@ class ProjectViewModel : ViewModel() {
     private val _projectSecKey = MutableStateFlow("")
     private val _isLoading = MutableStateFlow(false)
     private val _login = MutableStateFlow("")
-    private val _password = MutableStateFlow("")
 
     val projectName: StateFlow<String>
         get() = _projectName
@@ -21,8 +20,6 @@ class ProjectViewModel : ViewModel() {
         get() = _isLoading
     val login: StateFlow<String>
         get() = _login
-    val password: StateFlow<String>
-        get() = _password
 
     fun extractProjectData(projectType: String) {
         val project = ProjectsListData.find { it.type == projectType.toInt() }!!
@@ -31,13 +28,12 @@ class ProjectViewModel : ViewModel() {
         getLogin()
     }
 
-    private fun getLogin() {
+    fun getLogin() {
         _isLoading.value = true
         viewModelScope.launch {
             val result = getLoginEndpoint.getLogin(_projectSecKey.value)
             if (result.isSuccessful) {
                 _login.value = result.body()!!.data.login
-                _password.value = result.body()!!.data.password
                 _isLoading.value = false
             }
         }
