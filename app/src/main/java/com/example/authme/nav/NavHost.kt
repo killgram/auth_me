@@ -16,7 +16,7 @@ fun NavigationHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = ProjectsList.route,
+        startDestination = AuthScreen.route,
         modifier = modifier
     ) {
         composable(route = AuthScreen.route) {
