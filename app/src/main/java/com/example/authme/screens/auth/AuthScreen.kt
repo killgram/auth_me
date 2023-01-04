@@ -12,7 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.FragmentActivity
+import com.example.authme.R
 import com.example.authme.utils.BiometricUtil
 
 @Composable
@@ -37,7 +39,7 @@ fun AuthScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            "You need to log in with biometrics",
+            stringResource(R.string.you_need_to_log_in_with_biometrics),
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
         Button(
@@ -52,7 +54,7 @@ fun AuthScreen(
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 32.dp)
         ) {
-            Text("Login", style = MaterialTheme.typography.h5)
+            Text(stringResource(R.string.login), style = MaterialTheme.typography.h5)
         }
     }
 }

@@ -6,4 +6,6 @@ import com.example.authme.network.RetrofitHelper
 object R3D3Endpoints {
     val getLoginEndpoint: GetLogin =
         RetrofitHelper.getInstance(Domains.getR3D3Domain()).create(GetLogin::class.java)
+    val setPasswordEndpoint: SetPassword =
+        RetrofitHelper.getInstance(Domains.getR3D3Domain()).create(SetPassword::class.java)
 }

@@ -10,10 +10,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.authme.R
 import com.example.authme.ui.inputs.BaseInput
 
 @Composable
@@ -28,6 +30,7 @@ fun ProjectAuthScreen(
     val name by viewModel.projectName.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val login by viewModel.login.collectAsState()
+    val password by viewModel.password.collectAsState()
     val focusManager = LocalFocusManager.current
     val isSetPassLoading by viewModel.isSetPassLoading.collectAsState()
 
@@ -67,11 +70,20 @@ fun ProjectAuthScreen(
                     .fillMaxSize()
             ) {
                 if (login.isNotEmpty()) {
-                    LoginRow(login)
+                    LineDataRow(title = stringResource(R.string.installed_login), value = login)
+                    if (password.isNotEmpty()) {
+                        LineDataRow(
+                            title = stringResource(R.string.installed_password),
+                            value = password
+                        )
+                    }
                     PasswordRow(value, onChangeValue = { value -> onChangeValue(value) })
-                    SetPasswordBox(value.text, isSetPassLoading)
+                    SetPasswordBox(
+                        value.text,
+                        isSetPassLoading,
+                        setPassword = { newPassword -> viewModel.setPassword(newPassword) })
                 } else {
-                    EmptyLoginBox(onRefresh = { viewModel.getLogin() })
+                    EmptyLoginBox { viewModel.getLogin() }
                 }
             }
         }
@@ -79,13 +91,15 @@ fun ProjectAuthScreen(
 }
 
 @Composable
-fun LoginRow(login: String) {
+fun LineDataRow(title: String, value: String) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Text("Installed login:")
-        Text(login)
+        Text(title)
+        Text(value)
     }
 }
 
@@ -97,10 +111,9 @@ fun PasswordRow(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 24.dp),
     ) {
         Text(
-            "Set password",
+            stringResource(R.string.set_password),
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 12.dp)
@@ -119,7 +132,7 @@ fun EmptyLoginBox(
             .fillMaxWidth()
     ) {
         Text(
-            "Auth data is empty",
+            stringResource(R.string.auth_data_is_empty),
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
         )
@@ -129,7 +142,7 @@ fun EmptyLoginBox(
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 12.dp)
         ) {
-            Text("Refresh")
+            Text(stringResource(R.string.refresh))
         }
     }
 }
@@ -137,7 +150,8 @@ fun EmptyLoginBox(
 @Composable
 fun SetPasswordBox(
     pass: String,
-    isSetPassLoading: Boolean
+    isSetPassLoading: Boolean,
+    setPassword: (newPassword: String) -> Unit = {}
 ) {
     Row(
         modifier = Modifier
@@ -155,11 +169,11 @@ fun SetPasswordBox(
             }
         } else {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { setPassword(pass) },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = pass.length > 2,
             ) {
-                Text("Set new password")
+                Text(stringResource(R.string.set_new_password))
             }
         }
     }

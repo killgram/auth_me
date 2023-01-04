@@ -3,4 +3,12 @@
     <string name="biometric_authentication">Biometric Authentication</string>
     <string name="cancel">Cancel</string>
     <string name="list_of_available_projects">List of available projects</string>
+    <string name="set_password">Set password</string>
+    <string name="auth_data_is_empty">Auth data is empty</string>
+    <string name="refresh">Refresh</string>
+    <string name="set_new_password">Set new password</string>
+    <string name="installed_login">Installed login:</string>
+    <string name="installed_password">Installed password:</string>
+    <string name="you_need_to_log_in_with_biometrics">You need to log in with biometrics</string>
+    <string name="login">Login</string>
 </resources>
