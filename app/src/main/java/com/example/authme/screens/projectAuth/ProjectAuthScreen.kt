@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,6 +56,14 @@ fun ProjectAuthScreen(
                 ) {
                     Icon(Icons.Filled.ArrowBack, contentDescription = null)
                 }
+            },
+            actions = {
+                IconButton(
+                    onClick = { viewModel.getLogin() },
+                    modifier = Modifier.padding(end = 4.dp)
+                ) {
+                    Icon(Icons.Filled.Refresh, contentDescription = null)
+                }
             }
         )
         if (isLoading) {
@@ -83,7 +92,7 @@ fun ProjectAuthScreen(
                         isSetPassLoading,
                         setPassword = { newPassword -> viewModel.setPassword(newPassword) })
                 } else {
-                    EmptyLoginBox { viewModel.getLogin() }
+                    EmptyLoginBox()
                 }
             }
         }
@@ -123,27 +132,17 @@ fun PasswordRow(
 }
 
 @Composable
-fun EmptyLoginBox(
-    onRefresh: () -> Unit = {}
-) {
+fun EmptyLoginBox() {
     Column(
         modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
             stringResource(R.string.auth_data_is_empty),
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
         )
-        Button(
-            onClick = { onRefresh() },
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(top = 12.dp)
-        ) {
-            Text(stringResource(R.string.refresh))
-        }
     }
 }
 
