@@ -29,6 +29,7 @@ fun ProjectAuthScreen(
     val isLoading by viewModel.isLoading.collectAsState()
     val login by viewModel.login.collectAsState()
     val focusManager = LocalFocusManager.current
+    val isSetPassLoading by viewModel.isSetPassLoading.collectAsState()
 
     var value by remember { mutableStateOf(TextFieldValue("")) }
     fun onChangeValue(newValue: TextFieldValue) {
@@ -68,7 +69,7 @@ fun ProjectAuthScreen(
                 if (login.isNotEmpty()) {
                     LoginRow(login)
                     PasswordRow(value, onChangeValue = { value -> onChangeValue(value) })
-                    SetPasswordBox(value.text)
+                    SetPasswordBox(value.text, isSetPassLoading)
                 } else {
                     EmptyLoginBox(onRefresh = { viewModel.getLogin() })
                 }
@@ -93,7 +94,6 @@ fun PasswordRow(
     value: TextFieldValue,
     onChangeValue: (TextFieldValue) -> Unit = {}
 ) {
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -135,20 +135,32 @@ fun EmptyLoginBox(
 }
 
 @Composable
-fun SetPasswordBox(pass: String) {
+fun SetPasswordBox(
+    pass: String,
+    isSetPassLoading: Boolean
+) {
     Row(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 12.dp)
+            .padding(bottom = 12.dp),
+        verticalAlignment = Alignment.Bottom
     ) {
-        Button(
-            onClick = { /*TODO*/ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.Bottom),
-            enabled = pass.length > 2,
-        ) {
-            Text("Set new password")
+        if (isSetPassLoading) {
+            Box(modifier = Modifier.fillMaxWidth()) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(
+                        Alignment.Center
+                    )
+                )
+            }
+        } else {
+            Button(
+                onClick = { /*TODO*/ },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = pass.length > 2,
+            ) {
+                Text("Set new password")
+            }
         }
     }
 }
