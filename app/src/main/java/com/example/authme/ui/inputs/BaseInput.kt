@@ -8,8 +8,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 
 @Composable
 fun BaseInput(
-    value: TextFieldValue,
-    onValueChange: (TextFieldValue) -> Unit = {}
+    value: String,
+    onValueChange: (String) -> Unit = {}
 ) {
     OutlinedTextField(
         value = value,

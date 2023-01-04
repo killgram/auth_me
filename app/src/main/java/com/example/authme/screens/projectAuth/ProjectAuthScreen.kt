@@ -1,5 +1,6 @@
 package com.example.authme.screens.projectAuth
 
+import android.util.Log
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -13,10 +14,10 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.authme.R
+import com.example.authme.components.CircularProgressComponent
 import com.example.authme.ui.inputs.BaseInput
 
 @Composable
@@ -35,8 +36,8 @@ fun ProjectAuthScreen(
     val focusManager = LocalFocusManager.current
     val isSetPassLoading by viewModel.isSetPassLoading.collectAsState()
 
-    var value by remember { mutableStateOf(TextFieldValue("")) }
-    fun onChangeValue(newValue: TextFieldValue) {
+    var value by remember { mutableStateOf("") }
+    fun onChangeValue(newValue: String) {
         value = newValue
     }
     Column(modifier = Modifier
@@ -87,10 +88,17 @@ fun ProjectAuthScreen(
                         )
                     }
                     PasswordRow(value, onChangeValue = { value -> onChangeValue(value) })
+                    CircularProgressComponent(doAction = {
+                        Log.i("ASDSADAS", "HEHEHEHEHEH")
+                    })
+
                     SetPasswordBox(
-                        value.text,
+                        value,
                         isSetPassLoading,
-                        setPassword = { newPassword -> viewModel.setPassword(newPassword) })
+                        setPassword = { newPassword ->
+                            viewModel.setPassword(newPassword)
+                            onChangeValue("")
+                        })
                 } else {
                     EmptyLoginBox()
                 }
@@ -114,8 +122,8 @@ fun LineDataRow(title: String, value: String) {
 
 @Composable
 fun PasswordRow(
-    value: TextFieldValue,
-    onChangeValue: (TextFieldValue) -> Unit = {}
+    value: String,
+    onChangeValue: (String) -> Unit = {}
 ) {
     Column(
         modifier = Modifier
