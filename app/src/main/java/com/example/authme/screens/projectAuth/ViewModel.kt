@@ -75,4 +75,17 @@ class ProjectViewModel : ViewModel() {
             }
         }
     }
+
+    fun resetAuthData() {
+        _isLoading.value = true
+        viewModelScope.launch {
+            val result = when (_projectType.value) {
+                0 -> R3D3Endpoints.signInEndpoint.signIn(_login.value, _password.value)
+                else -> R3D3Endpoints.signInEndpoint.signIn(_login.value, _password.value)
+            }
+            if (result.isSuccessful) {
+                getLogin()
+            }
+        }
+    }
 }

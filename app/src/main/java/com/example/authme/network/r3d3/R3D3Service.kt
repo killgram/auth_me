@@ -3,6 +3,7 @@ package com.example.authme.network.r3d3
 import com.example.authme.network.GetLoginModel
 import com.example.authme.network.SetPasswordModel
 import com.example.authme.network.SetPasswordRequestModel
+import com.example.authme.network.SignInModel
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -21,4 +22,12 @@ interface SetPassword {
     suspend fun setPassword(
         @Body data: SetPasswordRequestModel
     ): Response<SetPasswordModel>
+}
+
+interface SignIn {
+    @GET("/r3d3/signIn")
+    suspend fun signIn(
+        @Query("login") login: String,
+        @Query("password") password: String
+    ): Response<SignInModel>
 }

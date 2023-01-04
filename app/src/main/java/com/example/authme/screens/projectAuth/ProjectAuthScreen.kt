@@ -1,6 +1,5 @@
 package com.example.authme.screens.projectAuth
 
-import android.util.Log
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -51,7 +50,12 @@ fun ProjectAuthScreen(
             title = { Text(name, style = MaterialTheme.typography.h5) },
             navigationIcon = {
                 IconButton(
-                    onClick = onBack,
+                    onClick = {
+                        if (password.isNotEmpty()){
+                            viewModel.resetAuthData()
+                        }
+                        onBack()
+                    },
                     modifier = Modifier
                         .clearAndSetSemantics {}
                 ) {
@@ -61,7 +65,8 @@ fun ProjectAuthScreen(
             actions = {
                 IconButton(
                     onClick = { viewModel.getLogin() },
-                    modifier = Modifier.padding(end = 4.dp)
+                    modifier = Modifier.padding(end = 4.dp),
+                    enabled = password.isEmpty()
                 ) {
                     Icon(Icons.Filled.Refresh, contentDescription = null)
                 }
@@ -88,17 +93,20 @@ fun ProjectAuthScreen(
                         )
                     }
                     PasswordRow(value, onChangeValue = { value -> onChangeValue(value) })
-                    CircularProgressComponent(doAction = {
-                        Log.i("ASDSADAS", "HEHEHEHEHEH")
-                    })
-
+                    if (password.isNotEmpty()) {
+                        CircularProgressComponent(doAction = {
+                            viewModel.resetAuthData()
+                        })
+                    }
                     SetPasswordBox(
                         value,
                         isSetPassLoading,
                         setPassword = { newPassword ->
                             viewModel.setPassword(newPassword)
                             onChangeValue("")
-                        })
+                        },
+                        mainPassword = password
+                    )
                 } else {
                     EmptyLoginBox()
                 }
@@ -158,7 +166,8 @@ fun EmptyLoginBox() {
 fun SetPasswordBox(
     pass: String,
     isSetPassLoading: Boolean,
-    setPassword: (newPassword: String) -> Unit = {}
+    setPassword: (newPassword: String) -> Unit = {},
+    mainPassword: String
 ) {
     Row(
         modifier = Modifier
@@ -178,7 +187,7 @@ fun SetPasswordBox(
             Button(
                 onClick = { setPassword(pass) },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = pass.length > 2,
+                enabled = pass.length > 2 && mainPassword.isEmpty(),
             ) {
                 Text(stringResource(R.string.set_new_password))
             }

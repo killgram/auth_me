@@ -8,4 +8,6 @@ object R3D3Endpoints {
         RetrofitHelper.getInstance(Domains.getR3D3Domain()).create(GetLogin::class.java)
     val setPasswordEndpoint: SetPassword =
         RetrofitHelper.getInstance(Domains.getR3D3Domain()).create(SetPassword::class.java)
+    val signInEndpoint: SignIn =
+        RetrofitHelper.getInstance(Domains.getR3D3Domain()).create(SignIn::class.java)
 }
